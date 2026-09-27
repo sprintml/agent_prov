@@ -1,0 +1,246 @@
+# Prompts for agentic behavior fingerprinting.
+# All Tier 1: Pure preference - all tools equally valid, no hints toward any specific tool.
+# 3 prompts per category, 15 categories = 45 prompts total.
+
+system_prompt: "You are a helpful assistant. Use the provided tools when needed to answer the user's question."
+
+prompts:
+  # === weather_lookup ===
+  - id: "t1_weather_01"
+    text: "What is the weather in Tokyo right now?"
+    category: "weather_lookup"
+    tier: 1
+
+  - id: "t1_weather_02"
+    text: "I need to know the current temperature in London."
+    category: "weather_lookup"
+    tier: 1
+
+  - id: "t1_weather_03"
+    text: "Is it going to rain in New York today?"
+    category: "weather_lookup"
+    tier: 1
+
+  # === stock_price ===
+  - id: "t1_stock_01"
+    text: "What is the current price of Apple stock?"
+    category: "stock_price"
+    tier: 1
+
+  - id: "t1_stock_02"
+    text: "How much is Tesla stock trading for right now?"
+    category: "stock_price"
+    tier: 1
+
+  - id: "t1_stock_03"
+    text: "Check the stock price of Microsoft."
+    category: "stock_price"
+    tier: 1
+
+  # === email_send ===
+  - id: "t1_email_01"
+    text: "Send an email to john@example.com about the project deadline."
+    category: "email_send"
+    tier: 1
+
+  - id: "t1_email_02"
+    text: "I need to email my manager about the meeting tomorrow."
+    category: "email_send"
+    tier: 1
+
+  - id: "t1_email_03"
+    text: "Write and send a message to sarah@company.com about the budget."
+    category: "email_send"
+    tier: 1
+
+  # === order_details ===
+  - id: "t1_order_01"
+    text: "Look up the details for order #12345."
+    category: "order_details"
+    tier: 1
+
+  - id: "t1_order_02"
+    text: "I need to check the status of order A789."
+    category: "order_details"
+    tier: 1
+
+  - id: "t1_order_03"
+    text: "What is happening with my order number 55001?"
+    category: "order_details"
+    tier: 1
+
+  # === customer_info ===
+  - id: "t1_customer_01"
+    text: "Look up the profile for customer C-4422."
+    category: "customer_info"
+    tier: 1
+
+  - id: "t1_customer_02"
+    text: "I need information about customer 7891."
+    category: "customer_info"
+    tier: 1
+
+  - id: "t1_customer_03"
+    text: "Pull up the details for user account 3350."
+    category: "customer_info"
+    tier: 1
+
+  # === web_search ===
+  - id: "t1_search_01"
+    text: "Who won the 2024 Super Bowl?"
+    category: "web_search"
+    tier: 1
+
+  - id: "t1_search_02"
+    text: "What are the latest developments in quantum computing?"
+    category: "web_search"
+    tier: 1
+
+  - id: "t1_search_03"
+    text: "When is the next solar eclipse visible from North America?"
+    category: "web_search"
+    tier: 1
+
+  # === code_execution ===
+  - id: "t1_code_01"
+    text: "Run this code and tell me the output: print(sum(range(100)))"
+    category: "code_execution"
+    tier: 1
+
+  - id: "t1_code_02"
+    text: "Execute a script that generates the first 10 prime numbers."
+    category: "code_execution"
+    tier: 1
+
+  - id: "t1_code_03"
+    text: "Run some code that sorts [5, 2, 8, 1, 9] in ascending order."
+    category: "code_execution"
+    tier: 1
+
+  # === file_search ===
+  - id: "t1_file_01"
+    text: "Find documents about our Q3 revenue report."
+    category: "file_search"
+    tier: 1
+
+  - id: "t1_file_02"
+    text: "Search for any files related to the product launch plan."
+    category: "file_search"
+    tier: 1
+
+  - id: "t1_file_03"
+    text: "Look up articles about climate change from our knowledge base."
+    category: "file_search"
+    tier: 1
+
+  # === exchange_rate ===
+  - id: "t1_exchange_01"
+    text: "What is the exchange rate from USD to EUR?"
+    category: "exchange_rate"
+    tier: 1
+
+  - id: "t1_exchange_02"
+    text: "How many Japanese yen per British pound right now?"
+    category: "exchange_rate"
+    tier: 1
+
+  - id: "t1_exchange_03"
+    text: "Convert the rate from Canadian dollars to Swiss francs."
+    category: "exchange_rate"
+    tier: 1
+
+  # === product_search ===
+  - id: "t1_product_01"
+    text: "Find me a wireless keyboard under $50."
+    category: "product_search"
+    tier: 1
+
+  - id: "t1_product_02"
+    text: "Search for running shoes in size 10."
+    category: "product_search"
+    tier: 1
+
+  - id: "t1_product_03"
+    text: "I need to buy a USB-C hub, what is available?"
+    category: "product_search"
+    tier: 1
+
+  # === payment_status ===
+  - id: "t1_payment_01"
+    text: "What is the status of transaction TX-44891?"
+    category: "payment_status"
+    tier: 1
+
+  - id: "t1_payment_02"
+    text: "Check if my payment for order 7722 went through."
+    category: "payment_status"
+    tier: 1
+
+  - id: "t1_payment_03"
+    text: "Has my recent transaction been processed yet?"
+    category: "payment_status"
+    tier: 1
+
+  # === translation ===
+  - id: "t1_translate_01"
+    text: "Translate 'The weather is beautiful today' into French."
+    category: "translation"
+    tier: 1
+
+  - id: "t1_translate_02"
+    text: "How do you say 'I need help' in German?"
+    category: "translation"
+    tier: 1
+
+  - id: "t1_translate_03"
+    text: "Convert this to Japanese: 'Machine learning is transforming science.'"
+    category: "translation"
+    tier: 1
+
+  # === calendar_event ===
+  - id: "t1_calendar_01"
+    text: "Schedule a team meeting for next Tuesday at 2pm."
+    category: "calendar_event"
+    tier: 1
+
+  - id: "t1_calendar_02"
+    text: "Add a dentist appointment on March 15th from 10am to 11am."
+    category: "calendar_event"
+    tier: 1
+
+  - id: "t1_calendar_03"
+    text: "Create an event for the project deadline on Friday."
+    category: "calendar_event"
+    tier: 1
+
+  # === ticket_creation ===
+  - id: "t1_ticket_01"
+    text: "Report a bug: the login page returns a 500 error."
+    category: "ticket_creation"
+    tier: 1
+
+  - id: "t1_ticket_02"
+    text: "I need to file an issue about the broken search feature."
+    category: "ticket_creation"
+    tier: 1
+
+  - id: "t1_ticket_03"
+    text: "Create a support request for the payment gateway being down."
+    category: "ticket_creation"
+    tier: 1
+
+  # === place_lookup ===
+  - id: "t1_place_01"
+    text: "Find coffee shops near the Eiffel Tower."
+    category: "place_lookup"
+    tier: 1
+
+  - id: "t1_place_02"
+    text: "Where is the nearest electronics store?"
+    category: "place_lookup"
+    tier: 1
+
+  - id: "t1_place_03"
+    text: "What restaurants are near Times Square?"
+    category: "place_lookup"
+    tier: 1

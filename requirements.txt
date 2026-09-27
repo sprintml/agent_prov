@@ -1,0 +1,9 @@
+# Core method: sample collection + MMD equality test
+torch>=2.1.0
+transformers>=4.45.0
+pyyaml>=6.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# API endpoints (OpenAI-compatible / OpenRouter)
+openai>=1.30.0

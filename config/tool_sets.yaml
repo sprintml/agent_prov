@@ -1,0 +1,816 @@
+# Each category contains functionally equivalent tools with different names/param styles.
+# Tools are grounded in real provider docs and benchmarks - no brand names.
+# The model must CHOOSE which tool to call - revealing training-data exposure.
+
+categories:
+  # === 1. weather_lookup: Canonical example memorization ===
+  # Every provider uses weather as their primary example, but with different names.
+  # get_current_weather = OpenAI 2023 blog, Google Vertex AI, Alibaba Cloud Qwen
+  # get_weather = OpenAI current docs, Anthropic docs
+  # get_current_temperature = OpenAI Assistants API, Qwen official docs
+  # get_current_conditions = Llama 3.1/3.3 docs (UNIQUE to Llama)
+  # fetch_weather = ToolBench/API-Bank benchmarks
+  weather_lookup:
+    tools:
+      - name: "get_current_weather"
+        description: "Look up the current weather conditions for a given place."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to get weather for, e.g. 'San Francisco, CA'."
+            unit:
+              type: string
+              description: "Temperature unit."
+              enum: ["celsius", "fahrenheit"]
+          required: ["location"]
+
+      - name: "get_weather"
+        description: "Look up the current weather conditions for a given place."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to get weather for, e.g. 'San Francisco, CA'."
+            units:
+              type: string
+              description: "Temperature units."
+              enum: ["celsius", "fahrenheit"]
+          required: ["location"]
+
+      - name: "get_current_temperature"
+        description: "Look up the current weather conditions for a given place."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to get weather for, e.g. 'San Francisco, CA'."
+            unit:
+              type: string
+              description: "Temperature unit."
+              enum: ["celsius", "fahrenheit"]
+          required: ["location"]
+
+      - name: "get_current_conditions"
+        description: "Look up the current weather conditions for a given place."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to get weather for, e.g. 'San Francisco, CA'."
+            unit:
+              type: string
+              description: "Temperature unit."
+              enum: ["celsius", "fahrenheit"]
+          required: ["location"]
+
+      - name: "fetch_weather"
+        description: "Look up the current weather conditions for a given place."
+        parameters:
+          type: object
+          properties:
+            city:
+              type: string
+              description: "The city to get weather for."
+            unit:
+              type: string
+              description: "Temperature unit."
+              enum: ["celsius", "fahrenheit"]
+          required: ["city"]
+
+  # === 2. stock_price: Parameter naming convention ===
+  # ticker_symbol vs symbol vs ticker vs stock_symbol
+  stock_price:
+    tools:
+      - name: "get_current_stock_price"
+        description: "Get the current market price for a stock."
+        parameters:
+          type: object
+          properties:
+            ticker_symbol:
+              type: string
+              description: "The stock ticker symbol, e.g. 'AAPL'."
+          required: ["ticker_symbol"]
+
+      - name: "get_stock_price"
+        description: "Get the current market price for a stock."
+        parameters:
+          type: object
+          properties:
+            symbol:
+              type: string
+              description: "The stock ticker symbol, e.g. 'AAPL'."
+          required: ["symbol"]
+
+      - name: "check_stock_price"
+        description: "Get the current market price for a stock."
+        parameters:
+          type: object
+          properties:
+            ticker:
+              type: string
+              description: "The stock ticker symbol, e.g. 'AAPL'."
+          required: ["ticker"]
+
+      - name: "stock_price_lookup"
+        description: "Get the current market price for a stock."
+        parameters:
+          type: object
+          properties:
+            stock_symbol:
+              type: string
+              description: "The stock ticker symbol, e.g. 'AAPL'."
+          required: ["stock_symbol"]
+
+  # === 3. email_send: Function + param naming co-occurrence ===
+  # send_email (OpenAI) vs send_message (Anthropic) vs compose_email vs email
+  email_send:
+    tools:
+      - name: "send_email"
+        description: "Send an email to a specified recipient with a subject line and message body."
+        parameters:
+          type: object
+          properties:
+            to:
+              type: string
+              description: "The recipient's email address."
+            subject:
+              type: string
+              description: "The email subject line."
+            body:
+              type: string
+              description: "The email body text."
+          required: ["to", "subject", "body"]
+
+      - name: "send_message"
+        description: "Send an email to a specified recipient with a subject line and message body."
+        parameters:
+          type: object
+          properties:
+            recipient:
+              type: string
+              description: "The recipient's email address."
+            subject:
+              type: string
+              description: "The email subject line."
+            content:
+              type: string
+              description: "The message content."
+          required: ["recipient", "subject", "content"]
+
+      - name: "compose_email"
+        description: "Send an email to a specified recipient with a subject line and message body."
+        parameters:
+          type: object
+          properties:
+            to_address:
+              type: string
+              description: "The recipient's email address."
+            subject:
+              type: string
+              description: "The email subject line."
+            message:
+              type: string
+              description: "The email message text."
+          required: ["to_address", "subject", "message"]
+
+      - name: "email"
+        description: "Send an email to a specified recipient with a subject line and message body."
+        parameters:
+          type: object
+          properties:
+            to:
+              type: string
+              description: "The recipient's email address."
+            subject:
+              type: string
+              description: "The email subject line."
+            text:
+              type: string
+              description: "The email text."
+          required: ["to", "subject", "text"]
+
+  # === 4. order_details: Casing convention (PascalCase vs snake_case) ===
+  # GetDeliveryDate (OpenAI Structured Outputs PascalCase!) vs get_order_details vs lookup_order
+  order_details:
+    tools:
+      - name: "get_order_details"
+        description: "Retrieve details about a customer order using its identifier."
+        parameters:
+          type: object
+          properties:
+            order_id:
+              type: string
+              description: "The order identifier."
+          required: ["order_id"]
+
+      - name: "GetDeliveryDate"
+        description: "Retrieve details about a customer order using its identifier."
+        parameters:
+          type: object
+          properties:
+            order_id:
+              type: string
+              description: "The order identifier."
+          required: ["order_id"]
+
+      - name: "lookup_order"
+        description: "Retrieve details about a customer order using its identifier."
+        parameters:
+          type: object
+          properties:
+            order_id:
+              type: string
+              description: "The order identifier."
+          required: ["order_id"]
+
+      - name: "get_order_status"
+        description: "Retrieve details about a customer order using its identifier."
+        parameters:
+          type: object
+          properties:
+            id:
+              type: string
+              description: "The order identifier."
+          required: ["id"]
+
+  # === 5. customer_info: Provider-specific naming ===
+  # get_customer_profile (OpenAI) vs get_customer_info (Anthropic) vs get_user_info (Llama)
+  customer_info:
+    tools:
+      - name: "get_customer_profile"
+        description: "Look up information about a customer or user by their identifier."
+        parameters:
+          type: object
+          properties:
+            customer_id:
+              type: string
+              description: "The customer identifier."
+          required: ["customer_id"]
+
+      - name: "get_customer_info"
+        description: "Look up information about a customer or user by their identifier."
+        parameters:
+          type: object
+          properties:
+            customer_id:
+              type: string
+              description: "The customer identifier."
+          required: ["customer_id"]
+
+      - name: "get_user_info"
+        description: "Look up information about a customer or user by their identifier."
+        parameters:
+          type: object
+          properties:
+            user_id:
+              type: string
+              description: "The user identifier."
+          required: ["user_id"]
+
+      - name: "fetch_customer"
+        description: "Look up information about a customer or user by their identifier."
+        parameters:
+          type: object
+          properties:
+            id:
+              type: string
+              description: "The customer identifier."
+          required: ["id"]
+
+  # === 6. web_search: Built-in tool name familiarity ===
+  # web_search (Anthropic/Qwen/Mistral) vs web_search_preview (OpenAI) vs brave_search (Llama)
+  web_search:
+    tools:
+      - name: "web_search"
+        description: "Search the internet for information relevant to a query."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "web_search_preview"
+        description: "Search the internet for information relevant to a query."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "brave_search"
+        description: "Search the internet for information relevant to a query."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "search"
+        description: "Search the internet for information relevant to a query."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "search_web"
+        description: "Search the internet for information relevant to a query."
+        parameters:
+          type: object
+          properties:
+            search_query:
+              type: string
+              description: "The search query."
+          required: ["search_query"]
+
+  # === 7. code_execution: Built-in tool name familiarity ===
+  # code_interpreter (OpenAI/Qwen/Mistral) vs code_execution (Anthropic)
+  code_execution:
+    tools:
+      - name: "code_interpreter"
+        description: "Execute a code snippet and return the output."
+        parameters:
+          type: object
+          properties:
+            code:
+              type: string
+              description: "The code to execute."
+          required: ["code"]
+
+      - name: "code_execution"
+        description: "Execute a code snippet and return the output."
+        parameters:
+          type: object
+          properties:
+            code:
+              type: string
+              description: "The code to execute."
+          required: ["code"]
+
+      - name: "execute_code"
+        description: "Execute a code snippet and return the output."
+        parameters:
+          type: object
+          properties:
+            source_code:
+              type: string
+              description: "The source code to execute."
+          required: ["source_code"]
+
+      - name: "run_code"
+        description: "Execute a code snippet and return the output."
+        parameters:
+          type: object
+          properties:
+            code:
+              type: string
+              description: "The code to execute."
+          required: ["code"]
+
+  # === 8. file_search: RAG tool naming familiarity ===
+  # file_search (OpenAI Assistants) vs get_articles (OpenAI cookbook) vs search_documents
+  file_search:
+    tools:
+      - name: "file_search"
+        description: "Search through documents or files to find relevant information."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "get_articles"
+        description: "Search through documents or files to find relevant information."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "search_documents"
+        description: "Search through documents or files to find relevant information."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "retrieve"
+        description: "Search through documents or files to find relevant information."
+        parameters:
+          type: object
+          properties:
+            search_query:
+              type: string
+              description: "The search query."
+          required: ["search_query"]
+
+  # === 9. exchange_rate: Google-doc exposure ===
+  # get_exchange_rate (Google Gemini Codelabs) vs convert_currency vs currency_exchange
+  exchange_rate:
+    tools:
+      - name: "get_exchange_rate"
+        description: "Get the exchange rate between two currencies."
+        parameters:
+          type: object
+          properties:
+            currency_from:
+              type: string
+              description: "The source currency code, e.g. 'USD'."
+            currency_to:
+              type: string
+              description: "The target currency code, e.g. 'EUR'."
+          required: ["currency_from", "currency_to"]
+
+      - name: "convert_currency"
+        description: "Get the exchange rate between two currencies."
+        parameters:
+          type: object
+          properties:
+            from_currency:
+              type: string
+              description: "The source currency code, e.g. 'USD'."
+            to_currency:
+              type: string
+              description: "The target currency code, e.g. 'EUR'."
+          required: ["from_currency", "to_currency"]
+
+      - name: "currency_exchange"
+        description: "Get the exchange rate between two currencies."
+        parameters:
+          type: object
+          properties:
+            source:
+              type: string
+              description: "The source currency code, e.g. 'USD'."
+            target:
+              type: string
+              description: "The target currency code, e.g. 'EUR'."
+          required: ["source", "target"]
+
+      - name: "get_conversion_rate"
+        description: "Get the exchange rate between two currencies."
+        parameters:
+          type: object
+          properties:
+            base:
+              type: string
+              description: "The base currency code, e.g. 'USD'."
+            quote:
+              type: string
+              description: "The quote currency code, e.g. 'EUR'."
+          required: ["base", "quote"]
+
+  # === 10. product_search: Google Vertex AI exposure ===
+  # get_product_sku (Google Vertex AI) vs search_products vs find_product
+  product_search:
+    tools:
+      - name: "get_product_sku"
+        description: "Search for a product by name or description."
+        parameters:
+          type: object
+          properties:
+            product_name:
+              type: string
+              description: "The product name to search for."
+          required: ["product_name"]
+
+      - name: "search_products"
+        description: "Search for a product by name or description."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The product search query."
+          required: ["query"]
+
+      - name: "find_product"
+        description: "Search for a product by name or description."
+        parameters:
+          type: object
+          properties:
+            keywords:
+              type: string
+              description: "Keywords to search for."
+          required: ["keywords"]
+
+      - name: "product_lookup"
+        description: "Search for a product by name or description."
+        parameters:
+          type: object
+          properties:
+            search_term:
+              type: string
+              description: "The search term."
+          required: ["search_term"]
+
+  # === 11. payment_status: Mistral-specific signal ===
+  # retrieve_payment_status (Mistral primary canonical example) vs get_payment_status
+  payment_status:
+    tools:
+      - name: "retrieve_payment_status"
+        description: "Check the status of a payment transaction."
+        parameters:
+          type: object
+          properties:
+            transaction_id:
+              type: string
+              description: "The transaction identifier."
+          required: ["transaction_id"]
+
+      - name: "get_payment_status"
+        description: "Check the status of a payment transaction."
+        parameters:
+          type: object
+          properties:
+            payment_id:
+              type: string
+              description: "The payment identifier."
+          required: ["payment_id"]
+
+      - name: "check_payment"
+        description: "Check the status of a payment transaction."
+        parameters:
+          type: object
+          properties:
+            transaction_id:
+              type: string
+              description: "The transaction identifier."
+          required: ["transaction_id"]
+
+      - name: "payment_status_lookup"
+        description: "Check the status of a payment transaction."
+        parameters:
+          type: object
+          properties:
+            id:
+              type: string
+              description: "The transaction identifier."
+          required: ["id"]
+
+  # === 12. translation: Parameter naming convention ===
+  # source_language vs source_lang vs from_language vs source
+  translation:
+    tools:
+      - name: "translate_text"
+        description: "Translate text from one language to another."
+        parameters:
+          type: object
+          properties:
+            text:
+              type: string
+              description: "The text to translate."
+            source_language:
+              type: string
+              description: "The source language code, e.g. 'en'."
+              default: "auto"
+            target_language:
+              type: string
+              description: "The target language code, e.g. 'fr'."
+          required: ["text", "target_language"]
+
+      - name: "translate"
+        description: "Translate text from one language to another."
+        parameters:
+          type: object
+          properties:
+            text:
+              type: string
+              description: "The text to translate."
+            source_lang:
+              type: string
+              description: "Source language code."
+              default: "auto"
+            target_lang:
+              type: string
+              description: "Target language code."
+          required: ["text", "target_lang"]
+
+      - name: "text_translation"
+        description: "Translate text from one language to another."
+        parameters:
+          type: object
+          properties:
+            input_text:
+              type: string
+              description: "The text to translate."
+            from_language:
+              type: string
+              description: "The source language."
+              default: "auto"
+            to_language:
+              type: string
+              description: "The target language."
+          required: ["input_text", "to_language"]
+
+      - name: "translate_content"
+        description: "Translate text from one language to another."
+        parameters:
+          type: object
+          properties:
+            content:
+              type: string
+              description: "The content to translate."
+            source:
+              type: string
+              description: "The source language."
+              default: "auto"
+            target:
+              type: string
+              description: "The target language."
+          required: ["content", "target"]
+
+  # === 13. calendar_event: Naming variation across providers ===
+  # summary (Google Calendar) vs subject (Microsoft) vs title vs event_name
+  calendar_event:
+    tools:
+      - name: "create_event"
+        description: "Create a new event or meeting on the calendar."
+        parameters:
+          type: object
+          properties:
+            summary:
+              type: string
+              description: "The event title or summary."
+            start_time:
+              type: string
+              description: "The start time of the event."
+            end_time:
+              type: string
+              description: "The end time of the event."
+          required: ["summary", "start_time", "end_time"]
+
+      - name: "schedule_meeting"
+        description: "Create a new event or meeting on the calendar."
+        parameters:
+          type: object
+          properties:
+            subject:
+              type: string
+              description: "The meeting subject."
+            start:
+              type: string
+              description: "The start time."
+            end:
+              type: string
+              description: "The end time."
+          required: ["subject", "start", "end"]
+
+      - name: "add_event"
+        description: "Create a new event or meeting on the calendar."
+        parameters:
+          type: object
+          properties:
+            title:
+              type: string
+              description: "The event title."
+            start_time:
+              type: string
+              description: "The start time of the event."
+            end_time:
+              type: string
+              description: "The end time of the event."
+          required: ["title", "start_time", "end_time"]
+
+      - name: "create_calendar_event"
+        description: "Create a new event or meeting on the calendar."
+        parameters:
+          type: object
+          properties:
+            event_name:
+              type: string
+              description: "The name of the event."
+            datetime:
+              type: string
+              description: "The date and time of the event."
+            duration:
+              type: string
+              description: "The duration of the event."
+          required: ["event_name", "datetime", "duration"]
+
+  # === 14. ticket_creation: Anthropic-specific signal ===
+  # create_ticket (Anthropic advanced tool use blog) vs create_issue vs submit_ticket
+  ticket_creation:
+    tools:
+      - name: "create_ticket"
+        description: "Create a support ticket or issue report."
+        parameters:
+          type: object
+          properties:
+            title:
+              type: string
+              description: "The ticket title."
+            priority:
+              type: string
+              description: "The priority level."
+              enum: ["low", "medium", "high", "critical"]
+          required: ["title", "priority"]
+
+      - name: "create_issue"
+        description: "Create a support ticket or issue report."
+        parameters:
+          type: object
+          properties:
+            title:
+              type: string
+              description: "The issue title."
+            severity:
+              type: string
+              description: "The severity level."
+              enum: ["low", "medium", "high", "critical"]
+          required: ["title", "severity"]
+
+      - name: "submit_ticket"
+        description: "Create a support ticket or issue report."
+        parameters:
+          type: object
+          properties:
+            subject:
+              type: string
+              description: "The ticket subject."
+            priority:
+              type: string
+              description: "The priority level."
+              enum: ["low", "medium", "high", "critical"]
+          required: ["subject", "priority"]
+
+      - name: "open_bug_report"
+        description: "Create a support ticket or issue report."
+        parameters:
+          type: object
+          properties:
+            summary:
+              type: string
+              description: "A summary of the bug."
+            priority:
+              type: string
+              description: "The priority level."
+              enum: ["low", "medium", "high", "critical"]
+          required: ["summary", "priority"]
+
+  # === 15. place_lookup: Google Vertex AI exposure ===
+  # get_store_location (Google Vertex AI) vs search_places vs find_nearby
+  place_lookup:
+    tools:
+      - name: "get_store_location"
+        description: "Find stores, businesses, or points of interest near a location."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to search near."
+          required: ["location"]
+
+      - name: "search_places"
+        description: "Find stores, businesses, or points of interest near a location."
+        parameters:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "The search query."
+          required: ["query"]
+
+      - name: "find_nearby"
+        description: "Find stores, businesses, or points of interest near a location."
+        parameters:
+          type: object
+          properties:
+            location:
+              type: string
+              description: "The location to search near."
+            type:
+              type: string
+              description: "The type of place to find."
+          required: ["location", "type"]
+
+      - name: "locate"
+        description: "Find stores, businesses, or points of interest near a location."
+        parameters:
+          type: object
+          properties:
+            search_query:
+              type: string
+              description: "The search query."
+          required: ["search_query"]

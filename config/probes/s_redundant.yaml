@@ -1,0 +1,1672 @@
+state: s_redundant
+description: Tool-preference prior on equivalence-class tools.
+templates:
+- template_id: s_redundant__calendar_event__t1_calendar_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id001
+  - type: function
+    function:
+      name: create_event
+      description: Create a new event or meeting on the calendar.
+      parameters:
+        type: object
+        properties:
+          summary:
+            type: string
+            description: The event title or summary.
+          start_time:
+            type: string
+            description: The start time of the event.
+          end_time:
+            type: string
+            description: The end time of the event.
+        required:
+        - summary
+        - start_time
+        - end_time
+  - type: function
+    function:
+      name: schedule_meeting
+      description: Create a new event or meeting on the calendar.
+      parameters:
+        type: object
+        properties:
+          subject:
+            type: string
+            description: The meeting subject.
+          start:
+            type: string
+            description: The start time.
+          end:
+            type: string
+            description: The end time.
+        required:
+        - subject
+        - start
+        - end
+  - type: function
+    function:
+      name: add_event
+      description: Create a new event or meeting on the calendar.
+      parameters:
+        type: object
+        properties:
+          title:
+            type: string
+            description: The event title.
+          start_time:
+            type: string
+            description: The start time of the event.
+          end_time:
+            type: string
+            description: The end time of the event.
+        required:
+        - title
+        - start_time
+        - end_time
+  - type: function
+    function:
+      name: create_calendar_event
+      description: Create a new event or meeting on the calendar.
+      parameters:
+        type: object
+        properties:
+          event_name:
+            type: string
+            description: The name of the event.
+          datetime:
+            type: string
+            description: The date and time of the event.
+          duration:
+            type: string
+            description: The duration of the event.
+        required:
+        - event_name
+        - datetime
+        - duration
+  synthetic_history: []
+  elicitation_turn: Schedule a team meeting for next Tuesday at 2pm.
+  option_set: &id002
+  - create_event
+  - schedule_meeting
+  - add_event
+  - create_calendar_event
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::calendar_event + config/prompts.yaml::t1_calendar_01
+  pattern: A
+  extras:
+    category: calendar_event
+- template_id: s_redundant__calendar_event__t1_calendar_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id001
+  synthetic_history: []
+  elicitation_turn: Add a dentist appointment on March 15th from 10am to 11am.
+  option_set: *id002
+  source: config/tool_sets.yaml::calendar_event + config/prompts.yaml::t1_calendar_02
+  pattern: A
+  extras:
+    category: calendar_event
+- template_id: s_redundant__calendar_event__t1_calendar_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id001
+  synthetic_history: []
+  elicitation_turn: Create an event for the project deadline on Friday.
+  option_set: *id002
+  source: config/tool_sets.yaml::calendar_event + config/prompts.yaml::t1_calendar_03
+  pattern: A
+  extras:
+    category: calendar_event
+- template_id: s_redundant__code_execution__t1_code_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id003
+  - type: function
+    function:
+      name: code_interpreter
+      description: Execute a code snippet and return the output.
+      parameters:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The code to execute.
+        required:
+        - code
+  - type: function
+    function:
+      name: code_execution
+      description: Execute a code snippet and return the output.
+      parameters:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The code to execute.
+        required:
+        - code
+  - type: function
+    function:
+      name: execute_code
+      description: Execute a code snippet and return the output.
+      parameters:
+        type: object
+        properties:
+          source_code:
+            type: string
+            description: The source code to execute.
+        required:
+        - source_code
+  - type: function
+    function:
+      name: run_code
+      description: Execute a code snippet and return the output.
+      parameters:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The code to execute.
+        required:
+        - code
+  synthetic_history: []
+  elicitation_turn: 'Run this code and tell me the output: print(sum(range(100)))'
+  option_set: &id004
+  - code_interpreter
+  - code_execution
+  - execute_code
+  - run_code
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::code_execution + config/prompts.yaml::t1_code_01
+  pattern: A
+  extras:
+    category: code_execution
+- template_id: s_redundant__code_execution__t1_code_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id003
+  synthetic_history: []
+  elicitation_turn: Execute a script that generates the first 10 prime numbers.
+  option_set: *id004
+  source: config/tool_sets.yaml::code_execution + config/prompts.yaml::t1_code_02
+  pattern: A
+  extras:
+    category: code_execution
+- template_id: s_redundant__code_execution__t1_code_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id003
+  synthetic_history: []
+  elicitation_turn: Run some code that sorts [5, 2, 8, 1, 9] in ascending order.
+  option_set: *id004
+  source: config/tool_sets.yaml::code_execution + config/prompts.yaml::t1_code_03
+  pattern: A
+  extras:
+    category: code_execution
+- template_id: s_redundant__customer_info__t1_customer_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id005
+  - type: function
+    function:
+      name: get_customer_profile
+      description: Look up information about a customer or user by their identifier.
+      parameters:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            description: The customer identifier.
+        required:
+        - customer_id
+  - type: function
+    function:
+      name: get_customer_info
+      description: Look up information about a customer or user by their identifier.
+      parameters:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            description: The customer identifier.
+        required:
+        - customer_id
+  - type: function
+    function:
+      name: get_user_info
+      description: Look up information about a customer or user by their identifier.
+      parameters:
+        type: object
+        properties:
+          user_id:
+            type: string
+            description: The user identifier.
+        required:
+        - user_id
+  - type: function
+    function:
+      name: fetch_customer
+      description: Look up information about a customer or user by their identifier.
+      parameters:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The customer identifier.
+        required:
+        - id
+  synthetic_history: []
+  elicitation_turn: Look up the profile for customer C-4422.
+  option_set: &id006
+  - get_customer_profile
+  - get_customer_info
+  - get_user_info
+  - fetch_customer
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::customer_info + config/prompts.yaml::t1_customer_01
+  pattern: A
+  extras:
+    category: customer_info
+- template_id: s_redundant__customer_info__t1_customer_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id005
+  synthetic_history: []
+  elicitation_turn: I need information about customer 7891.
+  option_set: *id006
+  source: config/tool_sets.yaml::customer_info + config/prompts.yaml::t1_customer_02
+  pattern: A
+  extras:
+    category: customer_info
+- template_id: s_redundant__customer_info__t1_customer_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id005
+  synthetic_history: []
+  elicitation_turn: Pull up the details for user account 3350.
+  option_set: *id006
+  source: config/tool_sets.yaml::customer_info + config/prompts.yaml::t1_customer_03
+  pattern: A
+  extras:
+    category: customer_info
+- template_id: s_redundant__email_send__t1_email_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id007
+  - type: function
+    function:
+      name: send_email
+      description: Send an email to a specified recipient with a subject line and message body.
+      parameters:
+        type: object
+        properties:
+          to:
+            type: string
+            description: The recipient's email address.
+          subject:
+            type: string
+            description: The email subject line.
+          body:
+            type: string
+            description: The email body text.
+        required:
+        - to
+        - subject
+        - body
+  - type: function
+    function:
+      name: send_message
+      description: Send an email to a specified recipient with a subject line and message body.
+      parameters:
+        type: object
+        properties:
+          recipient:
+            type: string
+            description: The recipient's email address.
+          subject:
+            type: string
+            description: The email subject line.
+          content:
+            type: string
+            description: The message content.
+        required:
+        - recipient
+        - subject
+        - content
+  - type: function
+    function:
+      name: compose_email
+      description: Send an email to a specified recipient with a subject line and message body.
+      parameters:
+        type: object
+        properties:
+          to_address:
+            type: string
+            description: The recipient's email address.
+          subject:
+            type: string
+            description: The email subject line.
+          message:
+            type: string
+            description: The email message text.
+        required:
+        - to_address
+        - subject
+        - message
+  - type: function
+    function:
+      name: email
+      description: Send an email to a specified recipient with a subject line and message body.
+      parameters:
+        type: object
+        properties:
+          to:
+            type: string
+            description: The recipient's email address.
+          subject:
+            type: string
+            description: The email subject line.
+          text:
+            type: string
+            description: The email text.
+        required:
+        - to
+        - subject
+        - text
+  synthetic_history: []
+  elicitation_turn: Send an email to john@example.com about the project deadline.
+  option_set: &id008
+  - send_email
+  - send_message
+  - compose_email
+  - email
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::email_send + config/prompts.yaml::t1_email_01
+  pattern: A
+  extras:
+    category: email_send
+- template_id: s_redundant__email_send__t1_email_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id007
+  synthetic_history: []
+  elicitation_turn: I need to email my manager about the meeting tomorrow.
+  option_set: *id008
+  source: config/tool_sets.yaml::email_send + config/prompts.yaml::t1_email_02
+  pattern: A
+  extras:
+    category: email_send
+- template_id: s_redundant__email_send__t1_email_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id007
+  synthetic_history: []
+  elicitation_turn: Write and send a message to sarah@company.com about the budget.
+  option_set: *id008
+  source: config/tool_sets.yaml::email_send + config/prompts.yaml::t1_email_03
+  pattern: A
+  extras:
+    category: email_send
+- template_id: s_redundant__exchange_rate__t1_exchange_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id009
+  - type: function
+    function:
+      name: get_exchange_rate
+      description: Get the exchange rate between two currencies.
+      parameters:
+        type: object
+        properties:
+          currency_from:
+            type: string
+            description: The source currency code, e.g. 'USD'.
+          currency_to:
+            type: string
+            description: The target currency code, e.g. 'EUR'.
+        required:
+        - currency_from
+        - currency_to
+  - type: function
+    function:
+      name: convert_currency
+      description: Get the exchange rate between two currencies.
+      parameters:
+        type: object
+        properties:
+          from_currency:
+            type: string
+            description: The source currency code, e.g. 'USD'.
+          to_currency:
+            type: string
+            description: The target currency code, e.g. 'EUR'.
+        required:
+        - from_currency
+        - to_currency
+  - type: function
+    function:
+      name: currency_exchange
+      description: Get the exchange rate between two currencies.
+      parameters:
+        type: object
+        properties:
+          source:
+            type: string
+            description: The source currency code, e.g. 'USD'.
+          target:
+            type: string
+            description: The target currency code, e.g. 'EUR'.
+        required:
+        - source
+        - target
+  - type: function
+    function:
+      name: get_conversion_rate
+      description: Get the exchange rate between two currencies.
+      parameters:
+        type: object
+        properties:
+          base:
+            type: string
+            description: The base currency code, e.g. 'USD'.
+          quote:
+            type: string
+            description: The quote currency code, e.g. 'EUR'.
+        required:
+        - base
+        - quote
+  synthetic_history: []
+  elicitation_turn: What is the exchange rate from USD to EUR?
+  option_set: &id010
+  - get_exchange_rate
+  - convert_currency
+  - currency_exchange
+  - get_conversion_rate
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::exchange_rate + config/prompts.yaml::t1_exchange_01
+  pattern: A
+  extras:
+    category: exchange_rate
+- template_id: s_redundant__exchange_rate__t1_exchange_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id009
+  synthetic_history: []
+  elicitation_turn: How many Japanese yen per British pound right now?
+  option_set: *id010
+  source: config/tool_sets.yaml::exchange_rate + config/prompts.yaml::t1_exchange_02
+  pattern: A
+  extras:
+    category: exchange_rate
+- template_id: s_redundant__exchange_rate__t1_exchange_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id009
+  synthetic_history: []
+  elicitation_turn: Convert the rate from Canadian dollars to Swiss francs.
+  option_set: *id010
+  source: config/tool_sets.yaml::exchange_rate + config/prompts.yaml::t1_exchange_03
+  pattern: A
+  extras:
+    category: exchange_rate
+- template_id: s_redundant__file_search__t1_file_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id011
+  - type: function
+    function:
+      name: file_search
+      description: Search through documents or files to find relevant information.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: get_articles
+      description: Search through documents or files to find relevant information.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: search_documents
+      description: Search through documents or files to find relevant information.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: retrieve
+      description: Search through documents or files to find relevant information.
+      parameters:
+        type: object
+        properties:
+          search_query:
+            type: string
+            description: The search query.
+        required:
+        - search_query
+  synthetic_history: []
+  elicitation_turn: Find documents about our Q3 revenue report.
+  option_set: &id012
+  - file_search
+  - get_articles
+  - search_documents
+  - retrieve
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::file_search + config/prompts.yaml::t1_file_01
+  pattern: A
+  extras:
+    category: file_search
+- template_id: s_redundant__file_search__t1_file_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id011
+  synthetic_history: []
+  elicitation_turn: Search for any files related to the product launch plan.
+  option_set: *id012
+  source: config/tool_sets.yaml::file_search + config/prompts.yaml::t1_file_02
+  pattern: A
+  extras:
+    category: file_search
+- template_id: s_redundant__file_search__t1_file_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id011
+  synthetic_history: []
+  elicitation_turn: Look up articles about climate change from our knowledge base.
+  option_set: *id012
+  source: config/tool_sets.yaml::file_search + config/prompts.yaml::t1_file_03
+  pattern: A
+  extras:
+    category: file_search
+- template_id: s_redundant__order_details__t1_order_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id013
+  - type: function
+    function:
+      name: get_order_details
+      description: Retrieve details about a customer order using its identifier.
+      parameters:
+        type: object
+        properties:
+          order_id:
+            type: string
+            description: The order identifier.
+        required:
+        - order_id
+  - type: function
+    function:
+      name: GetDeliveryDate
+      description: Retrieve details about a customer order using its identifier.
+      parameters:
+        type: object
+        properties:
+          order_id:
+            type: string
+            description: The order identifier.
+        required:
+        - order_id
+  - type: function
+    function:
+      name: lookup_order
+      description: Retrieve details about a customer order using its identifier.
+      parameters:
+        type: object
+        properties:
+          order_id:
+            type: string
+            description: The order identifier.
+        required:
+        - order_id
+  - type: function
+    function:
+      name: get_order_status
+      description: Retrieve details about a customer order using its identifier.
+      parameters:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The order identifier.
+        required:
+        - id
+  synthetic_history: []
+  elicitation_turn: 'Look up the details for order #12345.'
+  option_set: &id014
+  - get_order_details
+  - GetDeliveryDate
+  - lookup_order
+  - get_order_status
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::order_details + config/prompts.yaml::t1_order_01
+  pattern: A
+  extras:
+    category: order_details
+- template_id: s_redundant__order_details__t1_order_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id013
+  synthetic_history: []
+  elicitation_turn: I need to check the status of order A789.
+  option_set: *id014
+  source: config/tool_sets.yaml::order_details + config/prompts.yaml::t1_order_02
+  pattern: A
+  extras:
+    category: order_details
+- template_id: s_redundant__order_details__t1_order_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id013
+  synthetic_history: []
+  elicitation_turn: What is happening with my order number 55001?
+  option_set: *id014
+  source: config/tool_sets.yaml::order_details + config/prompts.yaml::t1_order_03
+  pattern: A
+  extras:
+    category: order_details
+- template_id: s_redundant__payment_status__t1_payment_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id015
+  - type: function
+    function:
+      name: retrieve_payment_status
+      description: Check the status of a payment transaction.
+      parameters:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+            description: The transaction identifier.
+        required:
+        - transaction_id
+  - type: function
+    function:
+      name: get_payment_status
+      description: Check the status of a payment transaction.
+      parameters:
+        type: object
+        properties:
+          payment_id:
+            type: string
+            description: The payment identifier.
+        required:
+        - payment_id
+  - type: function
+    function:
+      name: check_payment
+      description: Check the status of a payment transaction.
+      parameters:
+        type: object
+        properties:
+          transaction_id:
+            type: string
+            description: The transaction identifier.
+        required:
+        - transaction_id
+  - type: function
+    function:
+      name: payment_status_lookup
+      description: Check the status of a payment transaction.
+      parameters:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The transaction identifier.
+        required:
+        - id
+  synthetic_history: []
+  elicitation_turn: What is the status of transaction TX-44891?
+  option_set: &id016
+  - retrieve_payment_status
+  - get_payment_status
+  - check_payment
+  - payment_status_lookup
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::payment_status + config/prompts.yaml::t1_payment_01
+  pattern: A
+  extras:
+    category: payment_status
+- template_id: s_redundant__payment_status__t1_payment_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id015
+  synthetic_history: []
+  elicitation_turn: Check if my payment for order 7722 went through.
+  option_set: *id016
+  source: config/tool_sets.yaml::payment_status + config/prompts.yaml::t1_payment_02
+  pattern: A
+  extras:
+    category: payment_status
+- template_id: s_redundant__payment_status__t1_payment_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id015
+  synthetic_history: []
+  elicitation_turn: Has my recent transaction been processed yet?
+  option_set: *id016
+  source: config/tool_sets.yaml::payment_status + config/prompts.yaml::t1_payment_03
+  pattern: A
+  extras:
+    category: payment_status
+- template_id: s_redundant__place_lookup__t1_place_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id017
+  - type: function
+    function:
+      name: get_store_location
+      description: Find stores, businesses, or points of interest near a location.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to search near.
+        required:
+        - location
+  - type: function
+    function:
+      name: search_places
+      description: Find stores, businesses, or points of interest near a location.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: find_nearby
+      description: Find stores, businesses, or points of interest near a location.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to search near.
+          type:
+            type: string
+            description: The type of place to find.
+        required:
+        - location
+        - type
+  - type: function
+    function:
+      name: locate
+      description: Find stores, businesses, or points of interest near a location.
+      parameters:
+        type: object
+        properties:
+          search_query:
+            type: string
+            description: The search query.
+        required:
+        - search_query
+  synthetic_history: []
+  elicitation_turn: Find coffee shops near the Eiffel Tower.
+  option_set: &id018
+  - get_store_location
+  - search_places
+  - find_nearby
+  - locate
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::place_lookup + config/prompts.yaml::t1_place_01
+  pattern: A
+  extras:
+    category: place_lookup
+- template_id: s_redundant__place_lookup__t1_place_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id017
+  synthetic_history: []
+  elicitation_turn: Where is the nearest electronics store?
+  option_set: *id018
+  source: config/tool_sets.yaml::place_lookup + config/prompts.yaml::t1_place_02
+  pattern: A
+  extras:
+    category: place_lookup
+- template_id: s_redundant__place_lookup__t1_place_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id017
+  synthetic_history: []
+  elicitation_turn: What restaurants are near Times Square?
+  option_set: *id018
+  source: config/tool_sets.yaml::place_lookup + config/prompts.yaml::t1_place_03
+  pattern: A
+  extras:
+    category: place_lookup
+- template_id: s_redundant__product_search__t1_product_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id019
+  - type: function
+    function:
+      name: get_product_sku
+      description: Search for a product by name or description.
+      parameters:
+        type: object
+        properties:
+          product_name:
+            type: string
+            description: The product name to search for.
+        required:
+        - product_name
+  - type: function
+    function:
+      name: search_products
+      description: Search for a product by name or description.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The product search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: find_product
+      description: Search for a product by name or description.
+      parameters:
+        type: object
+        properties:
+          keywords:
+            type: string
+            description: Keywords to search for.
+        required:
+        - keywords
+  - type: function
+    function:
+      name: product_lookup
+      description: Search for a product by name or description.
+      parameters:
+        type: object
+        properties:
+          search_term:
+            type: string
+            description: The search term.
+        required:
+        - search_term
+  synthetic_history: []
+  elicitation_turn: Find me a wireless keyboard under $50.
+  option_set: &id020
+  - get_product_sku
+  - search_products
+  - find_product
+  - product_lookup
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::product_search + config/prompts.yaml::t1_product_01
+  pattern: A
+  extras:
+    category: product_search
+- template_id: s_redundant__product_search__t1_product_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id019
+  synthetic_history: []
+  elicitation_turn: Search for running shoes in size 10.
+  option_set: *id020
+  source: config/tool_sets.yaml::product_search + config/prompts.yaml::t1_product_02
+  pattern: A
+  extras:
+    category: product_search
+- template_id: s_redundant__product_search__t1_product_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id019
+  synthetic_history: []
+  elicitation_turn: I need to buy a USB-C hub, what is available?
+  option_set: *id020
+  source: config/tool_sets.yaml::product_search + config/prompts.yaml::t1_product_03
+  pattern: A
+  extras:
+    category: product_search
+- template_id: s_redundant__stock_price__t1_stock_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id021
+  - type: function
+    function:
+      name: get_current_stock_price
+      description: Get the current market price for a stock.
+      parameters:
+        type: object
+        properties:
+          ticker_symbol:
+            type: string
+            description: The stock ticker symbol, e.g. 'AAPL'.
+        required:
+        - ticker_symbol
+  - type: function
+    function:
+      name: get_stock_price
+      description: Get the current market price for a stock.
+      parameters:
+        type: object
+        properties:
+          symbol:
+            type: string
+            description: The stock ticker symbol, e.g. 'AAPL'.
+        required:
+        - symbol
+  - type: function
+    function:
+      name: check_stock_price
+      description: Get the current market price for a stock.
+      parameters:
+        type: object
+        properties:
+          ticker:
+            type: string
+            description: The stock ticker symbol, e.g. 'AAPL'.
+        required:
+        - ticker
+  - type: function
+    function:
+      name: stock_price_lookup
+      description: Get the current market price for a stock.
+      parameters:
+        type: object
+        properties:
+          stock_symbol:
+            type: string
+            description: The stock ticker symbol, e.g. 'AAPL'.
+        required:
+        - stock_symbol
+  synthetic_history: []
+  elicitation_turn: What is the current price of Apple stock?
+  option_set: &id022
+  - get_current_stock_price
+  - get_stock_price
+  - check_stock_price
+  - stock_price_lookup
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::stock_price + config/prompts.yaml::t1_stock_01
+  pattern: A
+  extras:
+    category: stock_price
+- template_id: s_redundant__stock_price__t1_stock_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id021
+  synthetic_history: []
+  elicitation_turn: How much is Tesla stock trading for right now?
+  option_set: *id022
+  source: config/tool_sets.yaml::stock_price + config/prompts.yaml::t1_stock_02
+  pattern: A
+  extras:
+    category: stock_price
+- template_id: s_redundant__stock_price__t1_stock_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id021
+  synthetic_history: []
+  elicitation_turn: Check the stock price of Microsoft.
+  option_set: *id022
+  source: config/tool_sets.yaml::stock_price + config/prompts.yaml::t1_stock_03
+  pattern: A
+  extras:
+    category: stock_price
+- template_id: s_redundant__ticket_creation__t1_ticket_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id023
+  - type: function
+    function:
+      name: create_ticket
+      description: Create a support ticket or issue report.
+      parameters:
+        type: object
+        properties:
+          title:
+            type: string
+            description: The ticket title.
+          priority:
+            type: string
+            description: The priority level.
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+        required:
+        - title
+        - priority
+  - type: function
+    function:
+      name: create_issue
+      description: Create a support ticket or issue report.
+      parameters:
+        type: object
+        properties:
+          title:
+            type: string
+            description: The issue title.
+          severity:
+            type: string
+            description: The severity level.
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+        required:
+        - title
+        - severity
+  - type: function
+    function:
+      name: submit_ticket
+      description: Create a support ticket or issue report.
+      parameters:
+        type: object
+        properties:
+          subject:
+            type: string
+            description: The ticket subject.
+          priority:
+            type: string
+            description: The priority level.
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+        required:
+        - subject
+        - priority
+  - type: function
+    function:
+      name: open_bug_report
+      description: Create a support ticket or issue report.
+      parameters:
+        type: object
+        properties:
+          summary:
+            type: string
+            description: A summary of the bug.
+          priority:
+            type: string
+            description: The priority level.
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+        required:
+        - summary
+        - priority
+  synthetic_history: []
+  elicitation_turn: 'Report a bug: the login page returns a 500 error.'
+  option_set: &id024
+  - create_ticket
+  - create_issue
+  - submit_ticket
+  - open_bug_report
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::ticket_creation + config/prompts.yaml::t1_ticket_01
+  pattern: A
+  extras:
+    category: ticket_creation
+- template_id: s_redundant__ticket_creation__t1_ticket_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id023
+  synthetic_history: []
+  elicitation_turn: I need to file an issue about the broken search feature.
+  option_set: *id024
+  source: config/tool_sets.yaml::ticket_creation + config/prompts.yaml::t1_ticket_02
+  pattern: A
+  extras:
+    category: ticket_creation
+- template_id: s_redundant__ticket_creation__t1_ticket_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id023
+  synthetic_history: []
+  elicitation_turn: Create a support request for the payment gateway being down.
+  option_set: *id024
+  source: config/tool_sets.yaml::ticket_creation + config/prompts.yaml::t1_ticket_03
+  pattern: A
+  extras:
+    category: ticket_creation
+- template_id: s_redundant__translation__t1_translate_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id025
+  - type: function
+    function:
+      name: translate_text
+      description: Translate text from one language to another.
+      parameters:
+        type: object
+        properties:
+          text:
+            type: string
+            description: The text to translate.
+          source_language:
+            type: string
+            description: The source language code, e.g. 'en'.
+            default: auto
+          target_language:
+            type: string
+            description: The target language code, e.g. 'fr'.
+        required:
+        - text
+        - target_language
+  - type: function
+    function:
+      name: translate
+      description: Translate text from one language to another.
+      parameters:
+        type: object
+        properties:
+          text:
+            type: string
+            description: The text to translate.
+          source_lang:
+            type: string
+            description: Source language code.
+            default: auto
+          target_lang:
+            type: string
+            description: Target language code.
+        required:
+        - text
+        - target_lang
+  - type: function
+    function:
+      name: text_translation
+      description: Translate text from one language to another.
+      parameters:
+        type: object
+        properties:
+          input_text:
+            type: string
+            description: The text to translate.
+          from_language:
+            type: string
+            description: The source language.
+            default: auto
+          to_language:
+            type: string
+            description: The target language.
+        required:
+        - input_text
+        - to_language
+  - type: function
+    function:
+      name: translate_content
+      description: Translate text from one language to another.
+      parameters:
+        type: object
+        properties:
+          content:
+            type: string
+            description: The content to translate.
+          source:
+            type: string
+            description: The source language.
+            default: auto
+          target:
+            type: string
+            description: The target language.
+        required:
+        - content
+        - target
+  synthetic_history: []
+  elicitation_turn: Translate 'The weather is beautiful today' into French.
+  option_set: &id026
+  - translate_text
+  - translate
+  - text_translation
+  - translate_content
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::translation + config/prompts.yaml::t1_translate_01
+  pattern: A
+  extras:
+    category: translation
+- template_id: s_redundant__translation__t1_translate_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id025
+  synthetic_history: []
+  elicitation_turn: How do you say 'I need help' in German?
+  option_set: *id026
+  source: config/tool_sets.yaml::translation + config/prompts.yaml::t1_translate_02
+  pattern: A
+  extras:
+    category: translation
+- template_id: s_redundant__translation__t1_translate_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id025
+  synthetic_history: []
+  elicitation_turn: 'Convert this to Japanese: ''Machine learning is transforming science.'''
+  option_set: *id026
+  source: config/tool_sets.yaml::translation + config/prompts.yaml::t1_translate_03
+  pattern: A
+  extras:
+    category: translation
+- template_id: s_redundant__weather_lookup__t1_weather_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id027
+  - type: function
+    function:
+      name: get_current_weather
+      description: Look up the current weather conditions for a given place.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to get weather for, e.g. 'San Francisco, CA'.
+          unit:
+            type: string
+            description: Temperature unit.
+            enum:
+            - celsius
+            - fahrenheit
+        required:
+        - location
+  - type: function
+    function:
+      name: get_weather
+      description: Look up the current weather conditions for a given place.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to get weather for, e.g. 'San Francisco, CA'.
+          units:
+            type: string
+            description: Temperature units.
+            enum:
+            - celsius
+            - fahrenheit
+        required:
+        - location
+  - type: function
+    function:
+      name: get_current_temperature
+      description: Look up the current weather conditions for a given place.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to get weather for, e.g. 'San Francisco, CA'.
+          unit:
+            type: string
+            description: Temperature unit.
+            enum:
+            - celsius
+            - fahrenheit
+        required:
+        - location
+  - type: function
+    function:
+      name: get_current_conditions
+      description: Look up the current weather conditions for a given place.
+      parameters:
+        type: object
+        properties:
+          location:
+            type: string
+            description: The location to get weather for, e.g. 'San Francisco, CA'.
+          unit:
+            type: string
+            description: Temperature unit.
+            enum:
+            - celsius
+            - fahrenheit
+        required:
+        - location
+  - type: function
+    function:
+      name: fetch_weather
+      description: Look up the current weather conditions for a given place.
+      parameters:
+        type: object
+        properties:
+          city:
+            type: string
+            description: The city to get weather for.
+          unit:
+            type: string
+            description: Temperature unit.
+            enum:
+            - celsius
+            - fahrenheit
+        required:
+        - city
+  synthetic_history: []
+  elicitation_turn: What is the weather in Tokyo right now?
+  option_set: &id028
+  - get_current_weather
+  - get_weather
+  - get_current_temperature
+  - get_current_conditions
+  - fetch_weather
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::weather_lookup + config/prompts.yaml::t1_weather_01
+  pattern: A
+  extras:
+    category: weather_lookup
+- template_id: s_redundant__weather_lookup__t1_weather_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id027
+  synthetic_history: []
+  elicitation_turn: I need to know the current temperature in London.
+  option_set: *id028
+  source: config/tool_sets.yaml::weather_lookup + config/prompts.yaml::t1_weather_02
+  pattern: A
+  extras:
+    category: weather_lookup
+- template_id: s_redundant__weather_lookup__t1_weather_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id027
+  synthetic_history: []
+  elicitation_turn: Is it going to rain in New York today?
+  option_set: *id028
+  source: config/tool_sets.yaml::weather_lookup + config/prompts.yaml::t1_weather_03
+  pattern: A
+  extras:
+    category: weather_lookup
+- template_id: s_redundant__web_search__t1_search_01
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: &id029
+  - type: function
+    function:
+      name: web_search
+      description: Search the internet for information relevant to a query.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: web_search_preview
+      description: Search the internet for information relevant to a query.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: brave_search
+      description: Search the internet for information relevant to a query.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: search
+      description: Search the internet for information relevant to a query.
+      parameters:
+        type: object
+        properties:
+          query:
+            type: string
+            description: The search query.
+        required:
+        - query
+  - type: function
+    function:
+      name: search_web
+      description: Search the internet for information relevant to a query.
+      parameters:
+        type: object
+        properties:
+          search_query:
+            type: string
+            description: The search query.
+        required:
+        - search_query
+  synthetic_history: []
+  elicitation_turn: Who won the 2024 Super Bowl?
+  option_set: &id030
+  - web_search
+  - web_search_preview
+  - brave_search
+  - search
+  - search_web
+  - _no_call
+  - _malformed
+  - _truncated
+  - _other
+  source: config/tool_sets.yaml::web_search + config/prompts.yaml::t1_search_01
+  pattern: A
+  extras:
+    category: web_search
+- template_id: s_redundant__web_search__t1_search_02
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id029
+  synthetic_history: []
+  elicitation_turn: What are the latest developments in quantum computing?
+  option_set: *id030
+  source: config/tool_sets.yaml::web_search + config/prompts.yaml::t1_search_02
+  pattern: A
+  extras:
+    category: web_search
+- template_id: s_redundant__web_search__t1_search_03
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id029
+  synthetic_history: []
+  elicitation_turn: When is the next solar eclipse visible from North America?
+  option_set: *id030
+  source: config/tool_sets.yaml::web_search + config/prompts.yaml::t1_search_03
+  pattern: A
+  extras:
+    category: web_search
+
+# ---------------------------------------------------------------------
+# Prompt-neutral templates (one per category). Avoid tool-name-matching
+# keywords (e.g., "bug" -> open_bug_report, "articles" -> get_articles)
+# so that tool-naming-prior signal isn't confounded with prompt-cue
+# attention. Added after cross-state probe review on 2026-04-16.
+# ---------------------------------------------------------------------
+- template_id: s_redundant__calendar_event__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id001
+  synthetic_history: []
+  elicitation_turn: Block off some time on my calendar for next Friday afternoon for a quarterly check-in.
+  option_set: *id002
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: calendar_event
+
+- template_id: s_redundant__code_execution__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id003
+  synthetic_history: []
+  elicitation_turn: Compute the value of 17 factorial for me.
+  option_set: *id004
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: code_execution
+
+- template_id: s_redundant__customer_info__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id005
+  synthetic_history: []
+  elicitation_turn: I have an inquiry about account 9930.
+  option_set: *id006
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: customer_info
+
+- template_id: s_redundant__email_send__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id007
+  synthetic_history: []
+  elicitation_turn: Drop a quick note to bob@example.com that the report is ready.
+  option_set: *id008
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: email_send
+
+- template_id: s_redundant__exchange_rate__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id009
+  synthetic_history: []
+  elicitation_turn: How much would 200 Australian dollars get me in Brazilian reals right now?
+  option_set: *id010
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: exchange_rate
+
+- template_id: s_redundant__file_search__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id011
+  synthetic_history: []
+  elicitation_turn: Find anything we have on the Q4 marketing campaign.
+  option_set: *id012
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: file_search
+
+- template_id: s_redundant__order_details__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id013
+  synthetic_history: []
+  elicitation_turn: Pull up everything on order 9988.
+  option_set: *id014
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: order_details
+
+- template_id: s_redundant__payment_status__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id015
+  synthetic_history: []
+  elicitation_turn: Has invoice INV-2200 been paid yet?
+  option_set: *id016
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: payment_status
+
+- template_id: s_redundant__place_lookup__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id017
+  synthetic_history: []
+  elicitation_turn: What is around 350 5th Ave New York?
+  option_set: *id018
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: place_lookup
+
+- template_id: s_redundant__product_search__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id019
+  synthetic_history: []
+  elicitation_turn: Show me wireless mice options.
+  option_set: *id020
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: product_search
+
+- template_id: s_redundant__stock_price__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id021
+  synthetic_history: []
+  elicitation_turn: How is NVDA doing today?
+  option_set: *id022
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: stock_price
+
+- template_id: s_redundant__ticket_creation__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id023
+  synthetic_history: []
+  elicitation_turn: My account dashboard isn't loading correctly since this morning. Can you record this somewhere so support can look at it?
+  option_set: *id024
+  source: handcrafted; prompt-neutral variant (no "bug" / "issue" / "ticket" keywords)
+  pattern: A
+  extras:
+    category: ticket_creation
+
+- template_id: s_redundant__translation__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id025
+  synthetic_history: []
+  elicitation_turn: Render 'thank you for your patience' in Mandarin Chinese.
+  option_set: *id026
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: translation
+
+- template_id: s_redundant__weather_lookup__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id027
+  synthetic_history: []
+  elicitation_turn: How is it outside in San Francisco at the moment?
+  option_set: *id028
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: weather_lookup
+
+- template_id: s_redundant__web_search__t2_neutral
+  system_prompt: You are a helpful assistant. Use the provided tools when needed to answer the user's question.
+  tool_schemas: *id029
+  synthetic_history: []
+  elicitation_turn: Look up information on the latest mission to Europa.
+  option_set: *id030
+  source: handcrafted; prompt-neutral variant
+  pattern: A
+  extras:
+    category: web_search

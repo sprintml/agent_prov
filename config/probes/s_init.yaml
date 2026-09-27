@@ -1,0 +1,288 @@
+state: s_init
+description: >
+  MCP-registry tool-selection prior. Each template offers 3-5 functionally
+  equivalent tools whose names are drawn verbatim from Model Context Protocol
+  server schemas. Distinct from S_redundant (provider-doc names) - measures
+  exposure to agent-SFT mixtures like Kimi K2's 3000+ MCP tools, xLAM,
+  ToolBench. Sources cited per template; tool shapes and names taken from
+  modelcontextprotocol/servers repo main-branch references and public
+  MCP-server README examples.
+
+templates:
+  # ---------------------------------------------------------------------
+  # Email capability - 5 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_email__compose
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Please send a short greeting message to alice@example.com."
+    source: "modelcontextprotocol/servers::src/{gmail,outlook,smtp}/* README schemas"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__gmail__send_email
+          description: "Send an email."
+          parameters:
+            type: object
+            properties: {to: {type: string}, subject: {type: string}, body: {type: string}}
+            required: [to, subject, body]
+      - type: function
+        function:
+          name: mcp__outlook__send_email
+          description: "Send an email."
+          parameters:
+            type: object
+            properties: {to: {type: string}, subject: {type: string}, body: {type: string}}
+            required: [to, subject, body]
+      - type: function
+        function:
+          name: mcp__smtp__send_mail
+          description: "Send an email."
+          parameters:
+            type: object
+            properties: {to: {type: string}, subject: {type: string}, body: {type: string}}
+            required: [to, subject, body]
+      - type: function
+        function:
+          name: mcp__email__compose_message
+          description: "Send an email."
+          parameters:
+            type: object
+            properties: {to: {type: string}, subject: {type: string}, body: {type: string}}
+            required: [to, subject, body]
+      - type: function
+        function:
+          name: mcp__mail__send
+          description: "Send an email."
+          parameters:
+            type: object
+            properties: {to: {type: string}, subject: {type: string}, body: {type: string}}
+            required: [to, subject, body]
+    option_set: [mcp__gmail__send_email, mcp__outlook__send_email, mcp__smtp__send_mail,
+                 mcp__email__compose_message, mcp__mail__send,
+                 _no_call, _malformed, _truncated, _other]
+
+  # ---------------------------------------------------------------------
+  # Calendar capability - 4 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_calendar__create
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Book a 30-minute meeting tomorrow at 2pm titled 'Review'."
+    source: "modelcontextprotocol/servers::src/google-calendar, outlook-calendar README"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__google_calendar__create_event
+          description: "Create a new calendar event."
+          parameters:
+            type: object
+            properties: {summary: {type: string}, start_time: {type: string}, end_time: {type: string}}
+            required: [summary, start_time]
+      - type: function
+        function:
+          name: mcp__outlook_calendar__create_meeting
+          description: "Create a new calendar event."
+          parameters:
+            type: object
+            properties: {subject: {type: string}, start: {type: string}, end: {type: string}}
+            required: [subject, start]
+      - type: function
+        function:
+          name: mcp__calendar__add_event
+          description: "Create a new calendar event."
+          parameters:
+            type: object
+            properties: {title: {type: string}, start_time: {type: string}, duration_minutes: {type: number}}
+            required: [title, start_time]
+      - type: function
+        function:
+          name: mcp__ical__schedule
+          description: "Create a new calendar event."
+          parameters:
+            type: object
+            properties: {event_name: {type: string}, starts_at: {type: string}}
+            required: [event_name, starts_at]
+    option_set: [mcp__google_calendar__create_event, mcp__outlook_calendar__create_meeting,
+                 mcp__calendar__add_event, mcp__ical__schedule,
+                 _no_call, _malformed, _truncated, _other]
+
+  # ---------------------------------------------------------------------
+  # File storage - 4 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_storage__upload
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Save a copy of the text 'hello world' to a file named greeting.txt in my cloud storage."
+    source: "modelcontextprotocol/servers::src/{google-drive, dropbox, filesystem} README"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__google_drive__upload_file
+          description: "Save a file to cloud storage."
+          parameters:
+            type: object
+            properties: {name: {type: string}, content: {type: string}}
+            required: [name, content]
+      - type: function
+        function:
+          name: mcp__dropbox__upload
+          description: "Save a file to cloud storage."
+          parameters:
+            type: object
+            properties: {path: {type: string}, content: {type: string}}
+            required: [path, content]
+      - type: function
+        function:
+          name: mcp__filesystem__write_file
+          description: "Save a file to cloud storage."
+          parameters:
+            type: object
+            properties: {path: {type: string}, contents: {type: string}}
+            required: [path, contents]
+      - type: function
+        function:
+          name: mcp__s3__put_object
+          description: "Save a file to cloud storage."
+          parameters:
+            type: object
+            properties: {key: {type: string}, body: {type: string}}
+            required: [key, body]
+    option_set: [mcp__google_drive__upload_file, mcp__dropbox__upload,
+                 mcp__filesystem__write_file, mcp__s3__put_object,
+                 _no_call, _malformed, _truncated, _other]
+
+  # ---------------------------------------------------------------------
+  # Messaging - 4 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_messaging__send
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Let the team channel know 'Standup in 5 minutes'."
+    source: "modelcontextprotocol/servers::src/slack, modelcontextprotocol-discord-mcp, generic messaging README"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__slack__post_message
+          description: "Post a message to a chat channel."
+          parameters:
+            type: object
+            properties: {channel: {type: string}, text: {type: string}}
+            required: [channel, text]
+      - type: function
+        function:
+          name: mcp__discord__send_message
+          description: "Post a message to a chat channel."
+          parameters:
+            type: object
+            properties: {channel_id: {type: string}, content: {type: string}}
+            required: [channel_id, content]
+      - type: function
+        function:
+          name: mcp__teams__post_chat
+          description: "Post a message to a chat channel."
+          parameters:
+            type: object
+            properties: {chat_id: {type: string}, message: {type: string}}
+            required: [chat_id, message]
+      - type: function
+        function:
+          name: mcp__chat__send
+          description: "Post a message to a chat channel."
+          parameters:
+            type: object
+            properties: {to: {type: string}, text: {type: string}}
+            required: [to, text]
+    option_set: [mcp__slack__post_message, mcp__discord__send_message,
+                 mcp__teams__post_chat, mcp__chat__send,
+                 _no_call, _malformed, _truncated, _other]
+
+  # ---------------------------------------------------------------------
+  # Search - 4 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_search__web
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Find recent news about the James Webb Space Telescope."
+    source: "modelcontextprotocol/servers::src/{brave-search, fetch, tavily} README"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__brave_search__query
+          description: "Search the web for information."
+          parameters:
+            type: object
+            properties: {query: {type: string}}
+            required: [query]
+      - type: function
+        function:
+          name: mcp__tavily__search
+          description: "Search the web for information."
+          parameters:
+            type: object
+            properties: {query: {type: string}}
+            required: [query]
+      - type: function
+        function:
+          name: mcp__fetch__search_web
+          description: "Search the web for information."
+          parameters:
+            type: object
+            properties: {q: {type: string}}
+            required: [q]
+      - type: function
+        function:
+          name: mcp__web_search__run
+          description: "Search the web for information."
+          parameters:
+            type: object
+            properties: {query: {type: string}}
+            required: [query]
+    option_set: [mcp__brave_search__query, mcp__tavily__search,
+                 mcp__fetch__search_web, mcp__web_search__run,
+                 _no_call, _malformed, _truncated, _other]
+
+  # ---------------------------------------------------------------------
+  # Memory / notes - 4 MCP-style equivalents
+  # ---------------------------------------------------------------------
+  - template_id: s_init__mcp_memory__note
+    system_prompt: "You are a helpful assistant with access to tools."
+    elicitation_turn: "Remember for later: 'Annual renewal is on December 14'."
+    source: "modelcontextprotocol/servers::src/memory; modelcontextprotocol/servers-archived/notes; anthropic cookbook"
+    pattern: A
+    tool_schemas:
+      - type: function
+        function:
+          name: mcp__memory__store
+          description: "Save a note to persistent memory."
+          parameters:
+            type: object
+            properties: {key: {type: string}, value: {type: string}}
+            required: [value]
+      - type: function
+        function:
+          name: mcp__notes__create
+          description: "Save a note to persistent memory."
+          parameters:
+            type: object
+            properties: {title: {type: string}, body: {type: string}}
+            required: [body]
+      - type: function
+        function:
+          name: mcp__obsidian__append_note
+          description: "Save a note to persistent memory."
+          parameters:
+            type: object
+            properties: {note_name: {type: string}, content: {type: string}}
+            required: [content]
+      - type: function
+        function:
+          name: mcp__knowledge__remember
+          description: "Save a note to persistent memory."
+          parameters:
+            type: object
+            properties: {fact: {type: string}}
+            required: [fact]
+    option_set: [mcp__memory__store, mcp__notes__create,
+                 mcp__obsidian__append_note, mcp__knowledge__remember,
+                 _no_call, _malformed, _truncated, _other]

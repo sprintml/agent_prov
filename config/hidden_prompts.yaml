@@ -1,0 +1,31 @@
+# Injected system-prompt conditions for the hidden-prompt robustness
+# experiment. Each condition is prepended to every probe template's own
+# system prompt via `run_probe.py run --extra-system-prompt "<text>"`.
+#
+# The control condition (no injected prompt) is the ordinary clean run with
+# no --extra-system-prompt flag; every injected condition is tested against
+# that clean run. Since the weights, decoding, and chat template are held
+# fixed and only the system message varies, any rejection is by construction
+# a false positive on identity.
+#
+# Models used in the experiment: llama3.2-1b, qwen3-1.7b, qwen2.5-1.5b,
+# gemma3-1b, hammer2.1-1.5b (all in config/models.yaml).
+
+conditions:
+  control:
+    text: null          # no system role - the clean baseline
+    note: "run with no --extra-system-prompt flag"
+
+  empty:
+    text: " "           # single whitespace, ~1 token
+    note: "minimal non-empty system message"
+
+  short:
+    text: "You are a helpful assistant."   # ~5 tokens
+
+  long:
+    text: >-
+      You are an AI assistant deployed by Acme Corp for customer support.
+      Always respond in a friendly, professional tone. Refuse requests
+      unrelated to Acme products.
+    note: "~50-token provider-style customer-service prompt"
